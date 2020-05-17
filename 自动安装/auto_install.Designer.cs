@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(auto_install));
             this.install_list = new System.Windows.Forms.ListBox();
             this.create_new_folder = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -38,22 +39,26 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.backgroundWorker_install = new System.ComponentModel.BackgroundWorker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // install_list
             // 
             this.install_list.FormattingEnabled = true;
             this.install_list.ItemHeight = 15;
-            this.install_list.Location = new System.Drawing.Point(20, 12);
+            this.install_list.Location = new System.Drawing.Point(20, 46);
             this.install_list.Name = "install_list";
-            this.install_list.Size = new System.Drawing.Size(681, 289);
+            this.install_list.Size = new System.Drawing.Size(763, 244);
             this.install_list.TabIndex = 1;
             // 
             // create_new_folder
             // 
-            this.create_new_folder.Location = new System.Drawing.Point(708, 305);
+            this.create_new_folder.Location = new System.Drawing.Point(688, 296);
             this.create_new_folder.Name = "create_new_folder";
-            this.create_new_folder.Size = new System.Drawing.Size(76, 40);
+            this.create_new_folder.Size = new System.Drawing.Size(96, 49);
             this.create_new_folder.TabIndex = 2;
             this.create_new_folder.Text = "建立安装文件夹";
             this.create_new_folder.UseVisualStyleBackColor = true;
@@ -79,9 +84,9 @@
             // 
             // install_button
             // 
-            this.install_button.Location = new System.Drawing.Point(707, 351);
+            this.install_button.Location = new System.Drawing.Point(688, 351);
             this.install_button.Name = "install_button";
-            this.install_button.Size = new System.Drawing.Size(76, 41);
+            this.install_button.Size = new System.Drawing.Size(95, 41);
             this.install_button.TabIndex = 8;
             this.install_button.Text = "开始安装";
             this.install_button.UseVisualStyleBackColor = true;
@@ -98,9 +103,9 @@
             // 
             // cancel_button
             // 
-            this.cancel_button.Location = new System.Drawing.Point(708, 398);
+            this.cancel_button.Location = new System.Drawing.Point(688, 398);
             this.cancel_button.Name = "cancel_button";
-            this.cancel_button.Size = new System.Drawing.Size(75, 40);
+            this.cancel_button.Size = new System.Drawing.Size(95, 40);
             this.cancel_button.TabIndex = 12;
             this.cancel_button.Text = "取消安装";
             this.cancel_button.UseVisualStyleBackColor = true;
@@ -110,7 +115,7 @@
             // 
             this.progressBar1.Location = new System.Drawing.Point(20, 322);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(681, 55);
+            this.progressBar1.Size = new System.Drawing.Size(662, 55);
             this.progressBar1.TabIndex = 13;
             // 
             // label1
@@ -131,11 +136,51 @@
             this.label9.TabIndex = 15;
             this.label9.Text = "添加文件-手动添加到生成的install文件夹";
             // 
+            // backgroundWorker_install
+            // 
+            this.backgroundWorker_install.WorkerReportsProgress = true;
+            this.backgroundWorker_install.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_install_DoWork);
+            this.backgroundWorker_install.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_install_ProgressChanged);
+            this.backgroundWorker_install.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_install_RunWorkerCompleted);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 13);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(502, 15);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "当你正在安装时，除非进程卡死，否则不建议强制退出！可能会造成异常！";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(20, 301);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(382, 15);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "安装操作已成功完成。如需安装更多，请重启应用程序。";
+            this.label5.Visible = false;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(617, 13);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(154, 15);
+            this.linkLabel1.TabIndex = 18;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "图标由icon8.com提供";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // auto_install
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
@@ -146,6 +191,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.create_new_folder);
             this.Controls.Add(this.install_list);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "auto_install";
             this.Text = "auto_install";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.auto_install_FormClosing);
@@ -166,5 +212,9 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label9;
+        private System.ComponentModel.BackgroundWorker backgroundWorker_install;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
