@@ -120,8 +120,8 @@ namespace 自动安装
 
         private void backgroundWorker_install_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessageBox.Show("安装操作已成功完成。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             progressBar1.Value = 100;
+            MessageBox.Show("安装操作已成功完成。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             cancel_button.Enabled = false;
             label5.Visible = true;
         }
